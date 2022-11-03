@@ -11,14 +11,9 @@ def entropy(class_y):
 
     Example: entropy for [0,0,0,1,1,1] should be 1.
     """
-    #  /$$$$$$$$ /$$$$$$ /$$       /$$
-    # | $$_____/|_  $$_/| $$      | $$
-    # | $$        | $$  | $$      | $$
-    # | $$$$$     | $$  | $$      | $$
-    # | $$__/     | $$  | $$      | $$
-    # | $$        | $$  | $$      | $$
-    # | $$       /$$$$$$| $$$$$$$$| $$$$$$$$
-    # |__/      |______/|________/|________/
+    _, counts = np.unique(class_y, return_counts=True)
+    probs = counts / len(class_y)
+    entropy = (-(probs * np.log2(probs))).sum()
     return entropy
 
 
