@@ -30,16 +30,10 @@ def information_gain(previous_y, current_y):
     Example: if y_before = [0,0,0,1,1,1] and y_splitted = [[0,0],[0,1,1,1]], information_gain = 0.4691
 
     """
-
-    info_gain = 0
-    #  /$$$$$$$$ /$$$$$$ /$$       /$$
-    # | $$_____/|_  $$_/| $$      | $$
-    # | $$        | $$  | $$      | $$
-    # | $$$$$     | $$  | $$      | $$
-    # | $$__/     | $$  | $$      | $$
-    # | $$        | $$  | $$      | $$
-    # | $$       /$$$$$$| $$$$$$$$| $$$$$$$$
-    # |__/      |______/|________/|________/
+    l = len(previous_y)
+    e_before = entropy(previous_y)
+    e_after = sum([entropy(sub_split) * len(sub_split) / l for sub_split in current_y])
+    info_gain = e_before - e_after
     return info_gain
 
 
