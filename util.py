@@ -105,13 +105,15 @@ def eval_metrics(conf_matrix):
 
     """
     accuracy, recall, precision, f1_score = 0, 0, 0, 0
-    #  /$$$$$$$$ /$$$$$$ /$$       /$$
-    # | $$_____/|_  $$_/| $$      | $$
-    # | $$        | $$  | $$      | $$
-    # | $$$$$     | $$  | $$      | $$
-    # | $$__/     | $$  | $$      | $$
-    # | $$        | $$  | $$      | $$
-    # | $$       /$$$$$$| $$$$$$$$| $$$$$$$$
-    # |__/      |______/|________/|________/
+    accuracy, recall, precision, f1_score = 0, 0, 0, 0
+    TP = conf_matrix[0][0]
+    TN = conf_matrix[0][1]
+    FP = conf_matrix[1][0]
+    FN = conf_matrix[1][1]
+
+    accuracy = (TP + FN) / (TP + TN + FP + FN)
+    precision = TP / (TP + FP)
+    recall = TP / (TP + FN)
+    f1_score = 2 * precision * recall / (precision + recall)
 
     return accuracy, recall, precision, f1_score
