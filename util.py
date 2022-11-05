@@ -37,7 +37,7 @@ def information_gain(previous_y, current_y):
     return info_gain
 
 
-def split_node(X, y, split_feature, split_value):
+def split_node(X, y, split_feature, split_value=70):
     """
     This method implements binary split to your X and y.
     Args:
@@ -60,20 +60,15 @@ def split_node(X, y, split_feature, split_value):
                 X_left: where values are <= split_value.
                 X_right: where values are > split_value.
     """
+    # by default feature_percentile is median, split_value=70
+    feature_percentile = np.percentile(
+        X[split_feature], split_value, method="closest_observation"
+    )
+    X_left = X[:, X[split_feature] < feature_percentile].tolist()
+    X_right = X[:, X[split_feature] >= feature_percentile].tolist()
 
-    X_left = []
-    X_right = []
-
-    y_left = []
-    y_right = []
-    #  /$$$$$$$$ /$$$$$$ /$$       /$$
-    # | $$_____/|_  $$_/| $$      | $$
-    # | $$        | $$  | $$      | $$
-    # | $$$$$     | $$  | $$      | $$
-    # | $$__/     | $$  | $$      | $$
-    # | $$        | $$  | $$      | $$
-    # | $$       /$$$$$$| $$$$$$$$| $$$$$$$$
-    # |__/      |______/|________/|________/
+    y_left = y[X[split_feature] < feature_percentile].flatten().tolist()
+    y_right = y[X[split_feature] >= feature_percentile].flatten().tolist()
     return X_left, X_right, y_left, y_right
 
 
