@@ -84,14 +84,13 @@ def confusion_matrix_(y_predicted, y):
 
     """
     confusion_matrix = np.zeros((2, 2))
-    #  /$$$$$$$$ /$$$$$$ /$$       /$$
-    # | $$_____/|_  $$_/| $$      | $$
-    # | $$        | $$  | $$      | $$
-    # | $$$$$     | $$  | $$      | $$
-    # | $$__/     | $$  | $$      | $$
-    # | $$        | $$  | $$      | $$
-    # | $$       /$$$$$$| $$$$$$$$| $$$$$$$$
-    # |__/      |______/|________/|________/
+    # assuming there are only two labels, if it is not one label then must be the other
+    confusion_matrix = np.zeros((2, 2))
+    label = np.unique(y)[0]
+    confusion_matrix[0][0] = np.count_nonzero((y == label) & (y_predicted == label))
+    confusion_matrix[0][1] = np.count_nonzero((y != label) & (y_predicted == label))
+    confusion_matrix[1][0] = np.count_nonzero((y == label) & (y_predicted != label))
+    confusion_matrix[1][1] = np.count_nonzero((y != label) & (y_predicted != label))
 
     return confusion_matrix
 
