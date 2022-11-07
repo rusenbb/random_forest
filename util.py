@@ -62,9 +62,8 @@ def split_node(X, y, split_feature, split_value=70):
     """
     # by default feature_percentile is median, split_value=70
     feature_percentile = np.percentile(
-        X[:, split_feature], split_value, method="closest_observation"
+        X[:, split_feature], split_value, method="midpoint"
     )
-    print(feature_percentile)
     X_left = X[X[:, split_feature] < feature_percentile]
     X_right = X[X[:, split_feature] >= feature_percentile]
 
