@@ -60,14 +60,10 @@ def split_node(X, y, split_feature):
                 X_left: where values are <= split_value.
                 X_right: where values are > split_value.
     """
-    if len(y) == len(X[:, split_feature]):
-        raise Exception("ERRORRRRRRRRRR")
 
     if len(y) == len(X[:, split_feature]) == 1:
         return X, X, y, y
     split_value = np.mean(X[:, split_feature])
-    print("SPLIT VAL:", split_value)
-    print("on col:", X[:, split_feature])
     X_left = X[X[:, split_feature] < split_value]
     X_right = X[X[:, split_feature] >= split_value]
 
