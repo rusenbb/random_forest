@@ -58,14 +58,11 @@ class RandomForest(object):
         """
         This method train each decision tree (with number of n_trees) using the bootstraps datasets and labels
         """
-        #  /$$$$$$$$ /$$$$$$ /$$       /$$
-        # | $$_____/|_  $$_/| $$      | $$
-        # | $$        | $$  | $$      | $$
-        # | $$$$$     | $$  | $$      | $$
-        # | $$__/     | $$  | $$      | $$
-        # | $$        | $$  | $$      | $$
-        # | $$       /$$$$$$| $$$$$$$$| $$$$$$$$
-        # |__/      |______/|________/|________/
+        i = 0
+        for data, label in zip(self.bootstrap_datasets, self.bootstrap_labels):
+            dt = self.decision_trees[i]
+            dt.train(data, label)
+            i += 1
 
     def majority_voting(self, X):
         """
@@ -82,14 +79,12 @@ class RandomForest(object):
                     the majority voting should find the predicted label as 1
                     because the number of 1's is bigger than the number of 0's
         """
-        #  /$$$$$$$$ /$$$$$$ /$$       /$$
-        # | $$_____/|_  $$_/| $$      | $$
-        # | $$        | $$  | $$      | $$
-        # | $$$$$     | $$  | $$      | $$
-        # | $$__/     | $$  | $$      | $$
-        # | $$        | $$  | $$      | $$
-        # | $$       /$$$$$$| $$$$$$$$| $$$$$$$$
-        # |__/      |______/|________/|________/
+        ys = list()
+        for dt in self.decision_trees:
+            ys.append(dt.classify(record=X))
+
+        matr = np.concatenate(ys, axis=0).T
+        y = np.array([np.bincount(matr[i]).argmax() for i in range(matr.shape[0])])
         return y
 
 
