@@ -38,36 +38,43 @@ class DecisionTree(object):
 
         # randomly select five feature and compare their info gain
         for feature in np.random.choice(features, 5):
-            x_l, x_r, y_l, y_r = split_node(X, y, split_feature=feature)
-            i_gain = information_gain(y, [y_l, y_r])
-            info_gains[feature] = i_gain
+            if len(np.unique(X)) > 1:
+                x_l, x_r, y_l, y_r = split_node(X, y, split_feature=feature)
+                i_gain = information_gain(y, [y_l, y_r])
+                info_gains[feature] = i_gain
 
         # select the feature with the highest info gain
-        max_gain_feature = max(info_gains, key=info_gains.get)  # type: ignore
-        info_gains.clear()
+        if len(info_gains) != 0:
+            max_gain_feature = max(info_gains, key=info_gains.get)  # type: ignore
+            info_gains.clear()
 
         # if entropy of the given y's are zero or max depth is reached
         # assign node to a leaf value (node["leaf"] = value) else
         # recursively do the same steps assigning node's key to the rule of split
-        if entropy(y) != 0 and self.depth != max_depth:
+        if entropy(y) != 0 and self.depth != max_depth and len(np.unique(X)) > 1:
             x_l, x_r, y_l, y_r = split_node(X, y, split_feature=max_gain_feature)
-            split_val = np.mean(X)
-            node[f"{max_gain_feature}_ <{split_val}"] = self.train(x_l, y_l, max_depth)
-            node[f"{max_gain_feature}_ >{split_val}"] = self.train(x_r, y_r, max_depth)
+            if len(np.unique(x_l)) > 1:
+                split_val = np.mean(X)
+                node[f"{max_gain_feature}_ <{split_val}"] = self.train(
+                    x_l, y_l, max_depth
+                )
+                node[f"{max_gain_feature}_ >{split_val}"] = self.train(
+                    x_r, y_r, max_depth
+                )
         else:
             # find majority labels
             values, counts = np.unique(y, return_counts=True)
             ind = np.argmax(counts)
             node["leaf"] = values[ind]
 
-        # Normally this function returns the tree at the end of execution
-        # (after recursion is done completely) but since tree of this object
-        # is wanted to be set in this method we set tree to node at each end
-        # of recursion. (normally setting self.tree = self.train() at elswhere
-        # would be more efficient)
-        self.tree = node
-        self.depth -= 1
-        return node
+            # Normally this function returns the tree at the end of execution
+            # (after recursion is done completely) but since tree of this object
+            # is wanted to be set in this method we set tree to node at each end
+            # of recursion. (normally setting self.tree = self.train() at elswhere
+            # would be more efficient)
+            self.tree = node
+            self.depth -= 1
+            return node
 
     def classify(self, record):
         """
