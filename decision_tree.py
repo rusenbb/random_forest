@@ -7,7 +7,7 @@ class DecisionTree(object):
         self.tree = {}  # you can use different data structure to build your tree
         self.depth = 0  # depth of the tree
 
-    def train(self, X, y, max_depth=10):
+    def train(self, X, y, max_depth=20):
         """
         This method trains decision tree (trains = construct = build)
         Args:
@@ -51,7 +51,12 @@ class DecisionTree(object):
         # if entropy of the given y's are zero or max depth is reached
         # assign node to a leaf value (node["leaf"] = value) else
         # recursively do the same steps assigning node's key to the rule of split
-        if entropy(y) != 0 and self.depth != max_depth and len(np.unique(X)) > 1:
+        cond_to_split = (
+            entropy(y) != 0
+            and self.depth != max_depth
+            and len(np.unique(X[:, max_gain_feature])) > 1
+        )
+        if cond_to_split:
             x_l, x_r, y_l, y_r = split_node(X, y, split_feature=max_gain_feature)
             if len(np.unique(x_l)) > 1:
                 split_val = np.mean(X)
