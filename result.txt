@@ -16,3 +16,5 @@ it is missing some actual positive labels and misclassifying them as negative.
 Overall, f1_score and accuracy rates are good. So I guess this program is good to 
 use on this data set. Though again one might be able to find better results
 using different algorithms, for now random forest performed good on this dataset.
+
+Muhammed Rüşen Birben - 150220755
