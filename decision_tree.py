@@ -68,9 +68,7 @@ class DecisionTree(object):
                 )
         else:
             # find majority labels
-            values, counts = np.unique(y, return_counts=True)
-            ind = np.argmax(counts)
-            node["leaf"] = values[ind]
+            node["leaf"] = np.bincount(y.astype(int)).argmax()
 
             # Normally this function returns the tree at the end of execution
             # (after recursion is done completely) but since tree of this object
