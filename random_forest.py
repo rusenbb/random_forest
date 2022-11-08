@@ -60,7 +60,7 @@ class RandomForest(object):
         i = 0
         for data, label in zip(self.bootstrap_datasets, self.bootstrap_labels):
             dt = self.decision_trees[i]
-            dt.train(np.array(data), np.array(label), max_depth=4)
+            dt.train(np.array(data), np.array(label), max_depth=10)
             i += 1
 
     def majority_voting(self, X):
