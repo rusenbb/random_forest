@@ -75,9 +75,9 @@ class DecisionTree(object):
             # is wanted to be set in this method we set tree to node at each end
             # of recursion. (normally setting self.tree = self.train() at elswhere
             # would be more efficient)
-            self.tree = node
-            self.depth -= 1
-            return node
+        self.tree = node
+        self.depth -= 1
+        return node
 
     def classify(self, record):
         """
