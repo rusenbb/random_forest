@@ -1,17 +1,19 @@
 ...Reading Airline Passenger Satisfaction Dataset...
 ...Fit your forest (all your decision trees)...
 ...Make Prediction...
-[[53593. 11393.]
- [ 5286. 33632.]]
-accuracy: 0.8395
-recall: 0.9102
-precision: 0.8247
-f1_score: 0.8653
+[[30530.  3141.]
+ [14495. 55738.]]
+accuracy: 0.8303
+recall: 0.6781
+precision: 0.9067
+f1_score: 0.7759
 
-result: I ran this program multiple times and scores tendt to be between 0.8-0.88.
-It has a high recall rate. This might be because we didn't have training and
-test split. Overall, f1_score and accuracy rates are good. So I guess this program is good to 
-use on this data set. Though again one might be able to find better results
-using different algorithms, for now random forest performed good on this dataset.
+result: I ran this program multiple times and scores tendt to be between 0.75-0.85.
+It has a high rpesicion rate. Meaning that if algorithm predicts that
+a label is 1 it probably is. Recall rate is low though, meaning that it is missing some
+true labels. Overall, f1_score and accuracy rates are good. So I guess this 
+program is good to use on this data set. Though again one might 
+be able to find better results using different algorithms, 
+for now random forest performed good on this dataset.
 
 Muhammed Rüşen Birben - 150220755
