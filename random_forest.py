@@ -17,7 +17,7 @@ class RandomForest(object):
         self.n_trees = n_trees
         self.decision_trees = [DecisionTree() for i in range(n_trees)]
 
-    def create_bootstrap_dataset(self, XX, n):
+    def create_bootstrap_dataset(self, XX: np.ndarray, n):
         """
         In this method, create sample datasets with size n by sampling with replacement from XX.
         You can prefer to use X and y instead of XX. It depends on your implementation.
@@ -30,17 +30,16 @@ class RandomForest(object):
             labels:
 
         """
-
         samples = []  # sampled dataset
         labels = []  # class labels for the sampled records
-        #  /$$$$$$$$ /$$$$$$ /$$       /$$
-        # | $$_____/|_  $$_/| $$      | $$
-        # | $$        | $$  | $$      | $$
-        # | $$$$$     | $$  | $$      | $$
-        # | $$__/     | $$  | $$      | $$
-        # | $$        | $$  | $$      | $$
-        # | $$       /$$$$$$| $$$$$$$$| $$$$$$$$
-        # |__/      |______/|________/|________/
+        XX = np.array(XX)
+
+        np.random.shuffle(XX)
+        y = XX[:, -1]
+        X = XX[:, :-1]
+        samples += X[0:n].tolist()
+        labels += y[0:n].tolist()
+
         return (samples, labels)
 
     def bootstrap(self, XX):
@@ -61,7 +60,7 @@ class RandomForest(object):
         i = 0
         for data, label in zip(self.bootstrap_datasets, self.bootstrap_labels):
             dt = self.decision_trees[i]
-            dt.train(data, label)
+            dt.train(np.array(data), np.array(label), max_depth=4)
             i += 1
 
     def majority_voting(self, X):
@@ -79,12 +78,15 @@ class RandomForest(object):
                     the majority voting should find the predicted label as 1
                     because the number of 1's is bigger than the number of 0's
         """
+        X = np.array(X)
         ys = list()
         for dt in self.decision_trees:
             ys.append(dt.classify(record=X))
 
-        matr = np.concatenate(ys, axis=0).T
-        y = np.array([np.bincount(matr[i]).argmax() for i in range(matr.shape[0])])
+        matr = np.vstack(ys).T
+        y = np.array(
+            [np.bincount(matr[i].astype(int)).argmax() for i in range(matr.shape[0])]
+        )
         return y
 
 
@@ -124,7 +126,7 @@ def main():
 
     # Initializing a random forest.
     randomForest = RandomForest(forest_size)
-    randomForest.bootstrapping(XX)
+    randomForest.bootstrap(XX)
 
     print("...Fit your forest (all your decision trees)...")
     randomForest.fitting()
