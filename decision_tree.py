@@ -59,7 +59,7 @@ class DecisionTree(object):
         if cond_to_split:
             x_l, x_r, y_l, y_r = split_node(X, y, split_feature=max_gain_feature)
             if len(np.unique(x_l)) > 1:
-                split_val = np.mean(X)
+                split_val = np.mean(X[:, max_gain_feature])
                 node[f"{max_gain_feature}_ <{split_val}"] = self.train(
                     x_l, y_l, max_depth
                 )
