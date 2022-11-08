@@ -82,14 +82,14 @@ def confusion_matrix_(y_predicted, y):
         confusion_matrix: with shape (2, 2)
 
     """
+    y = np.array(y)
     confusion_matrix = np.zeros((2, 2))
     # assuming there are only two labels, if it is not one label then must be the other
     confusion_matrix = np.zeros((2, 2))
-    label = np.unique(y)[0]
-    confusion_matrix[0][0] = np.count_nonzero((y == label) & (y_predicted == label))
-    confusion_matrix[0][1] = np.count_nonzero((y != label) & (y_predicted == label))
-    confusion_matrix[1][0] = np.count_nonzero((y == label) & (y_predicted != label))
-    confusion_matrix[1][1] = np.count_nonzero((y != label) & (y_predicted != label))
+    confusion_matrix[0][0] = np.count_nonzero((y == 1) & (y_predicted == 1))
+    confusion_matrix[0][1] = np.count_nonzero((y == 0) & (y_predicted == 1))
+    confusion_matrix[1][0] = np.count_nonzero((y == 1) & (y_predicted == 0))
+    confusion_matrix[1][1] = np.count_nonzero((y == 0) & (y_predicted == 0))
 
     return confusion_matrix
 
