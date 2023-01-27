@@ -6,7 +6,7 @@
 pip install numpy
 ```
 #### It uses an airline's dataset as training data and does not have any 
-## test or validation dataset
+#### test or validation dataset
 
 
 #### to run, one can simply type:
